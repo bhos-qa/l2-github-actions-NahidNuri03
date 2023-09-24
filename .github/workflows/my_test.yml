@@ -1,0 +1,29 @@
+name: CI
+
+run-name: ${{ github.actor }} creates CI pipeline
+
+on:
+  pull_request:
+    branches: [ "develop" ]
+
+  workflow_dispatch:
+
+jobs:
+  test-java-app:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checks out the code from repo to the runner
+        uses: actions/checkout@v3
+
+      - name: Set-up java environment
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: temurin
+      - name: Permissions is granted
+        run: chmod +x gradlew
+
+      - name: Gradle test
+        run: ./gradlew test
